@@ -9,7 +9,6 @@ void sumArraysOnHost(float *a, float *b, float *c, const int n) {
 }
 
 void initialData(float *ip, int size) {
-
     time_t t;
     srand((unsigned)time(&t));
     for (int i = 0; i < size; i++) {
