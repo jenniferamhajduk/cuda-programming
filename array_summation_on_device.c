@@ -19,6 +19,8 @@ void initialData(float *ip, int size) {
 
 int main(int argc, char **argv) {
     int nElem = 1024;
+    int blockSize = 256;
+    int gridSize = (nElem + blockSize - 1) / blockSize;
     size_t nBytes = nElem * sizeof(float);
     float *h_A, *h_B, *h_C;
 
@@ -36,6 +38,11 @@ int main(int argc, char **argv) {
 
     cudaMemcpy(d_A, h_A, nBytes, cudaMemcpyHostToDevice);
     cudaMemcpy(d_B, h_B, nBytes, cudaMemcpyHostToDevice);
+
+
+    // Launch kernel to perform summation on the device
+    sumArraysOnDevice<<<gridSize, blockSize>>>(d_A, d_B, d_C, nElem);
+
 
    
     sumArraysOnDevice(h_A, h_B, h_C, nElem);
@@ -59,7 +66,7 @@ int main(int argc, char **argv) {
     free(h_A);
     free(h_B);
     free(h_C);
-    
+
     return(0);
     }
 
